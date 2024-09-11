@@ -5,16 +5,17 @@ require 'json'
 require 'net/http'
 require 'csv'
 
+# These two endpoints are called by the web page, but don't appear on it, and give an inconsistent set of columns between regions
+# https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3.json
+# https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/glacier/USD/current/glacier.json
 endpoints = %w[
-  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-glacier-flexibleretrieval.json
   https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-standard.json
-  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3.json
   https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-intelligent-tiering.json
-  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-glacier-instantretrieval.json
-  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3glacierdeeparchive/USD/current/s3glacierdeeparchive.json
   https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-standard-infrequent.json
+  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-glacier-instantretrieval.json
+  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-glacier-flexibleretrieval.json
+  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3glacierdeeparchive/USD/current/s3glacierdeeparchive.json
   https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/s3/USD/current/s3-onezone-infrequent.json
-  https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/glacier/USD/current/glacier.json
 ]
 
 def get_json(url)
@@ -34,6 +35,7 @@ def export_csv(all_region_price_array, endpoint)
   result_file_name = "aws_s3_cost_#{tier_name}_#{Time.now.strftime('%Y-%m-%dT%H_%M_%S')}.csv"
   CSV.open(result_file_name, "wb", headers: %w[region_name region_code] + first_region_keys, write_headers: true) do |csv|
     all_region_price_array.each do |region_price|
+      # TODO: Handle key mismatch
       puts "Warning: Region #{region_price[:region_name]} has different keys than first region!" if region_price[:data].map { |d| d[:rate_name] } != first_region_keys
       csv<<[region_price[:region_name], get_region_code(region_price[:region_name])] + region_price[:data].map { |d| d[:price] }
     end
