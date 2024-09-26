@@ -32,7 +32,7 @@ def export_csv(all_region_price_array, endpoint)
   tier_name = File.basename(endpoint, '.json')
   puts "Exporting data for #{tier_name}"
   first_region_keys = all_region_price_array.first[:data].map { |d| d[:rate_name] }
-  result_file_name = "aws_s3_cost_#{tier_name}_#{Time.now.strftime('%Y-%m-%dT%H_%M_%S')}.csv"
+  result_file_name = "outputs/aws_s3_cost_#{tier_name}_#{Time.now.strftime('%Y-%m-%dT%H_%M_%S')}.csv"
   CSV.open(result_file_name, "wb", headers: %w[region_name region_code] + first_region_keys, write_headers: true) do |csv|
     all_region_price_array.each do |region_price|
       # TODO: Handle key mismatch

@@ -14,7 +14,6 @@
 !/tmp/.keep
 *.backup
 *.old
-*.csv
 *.ods
 
 # Ignore Byebug command history file.
