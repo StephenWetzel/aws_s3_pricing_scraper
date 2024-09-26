@@ -43,8 +43,8 @@ drwxr-xr-x 1  182 Sep 11 02:33 .git
 -rw-r--r-- 1  633 Jan 19  2023 .rubocop.yml
 ```
 
-And this is the table for the standard S3 pricing tier.
-`aws_s3_cost_s3-standard_2024-09-11T02_33_23.csv`
+I decided to include example outputs in the outputs folder.  So you can view the data as of the last time I ran this [here](https://github.com/StephenWetzel/aws_s3_pricing_scraper/blob/main/outputs/aws_s3_cost_s3-standard_2024-09-25T20_02_34.csv).  Below is the csv for the standard pricing tier.
+
 |region_name              |region_code   |Standard Storage First 50 TB per GB Mo|Standard Storage Next 450 TB per GB Mo|Standard Storage Over 500 TB per GB Mo|Data Returned by S3 Select in Standard per GB|Data Scanned by S3 Select in Standard per GB|GET and all other requests per Requests|PUT COPY/POST or LIST requests per Requests|
 |-------------------------|--------------|--------------------------------------|--------------------------------------|--------------------------------------|---------------------------------------------|--------------------------------------------|---------------------------------------|-------------------------------------------|
 |US West (Oregon)         |us-west-2     |0.0230000000                          |0.0220000000                          |0.0210000000                          |0.0007000000                                 |0.0020000000                                |0.0000004000                           |0.0000050000                               |
